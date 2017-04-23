@@ -2,30 +2,60 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityStandardAssets.Characters.FirstPerson;
+using UnityEngine.Networking;
 
-public class Player : MonoBehaviour {
+public class Player : NetworkBehaviour {
 
-    public MouseLook mouseLook;
-    public float ForwardSpeed = 8.0f;   // Speed when walking forward
-    public float BackwardSpeed = 4.0f;  // Speed when walking backwards
-    public float StrafeSpeed = 4.0f;    // Speed when walking sideways
-    public float JumpForce = 30f;
+    public float bulletSpeed = 200;
+    public float shootInterval = 0.3f;
+    public Transform bulletPrefab;
+
+    float shootCooldown = 0.0f;
+    int hp = 10;
+
+    public void Hurt()
+    {
+        if (hp > 0)
+        {
+            hp--;
+            if (hp <= 0)
+            {
+                Debug.Log("DED!");
+                hp = 0;
+            }
+        }
+    }
 
     // Use this for initialization
     void Start()
     {
-        mouseLook.Init(transform, Camera.main.transform);
+        if (!isLocalPlayer)
+            return;
+
+        foreach (Collider partOfMe in GetComponentsInChildren<Collider>())
+        {
+            partOfMe.gameObject.layer = LayerMask.NameToLayer("localPlayer");
+        }
+        Camera.main.GetComponent<CamFollow>().localPlayer = transform;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        mouseLook.LookRotation(transform, Camera.main.transform);
-        
-    }
+        if (!isLocalPlayer)
+            return;
 
-    void FixedUpdate()
-    {
-        mouseLook.UpdateCursorLock();
+        shootCooldown -= Time.deltaTime;
+        if(Input.GetButton("Fire1"))
+        {
+            if (shootCooldown <= 0.0f)
+            {
+                Transform bullet = Instantiate(bulletPrefab, transform.position + transform.up * 0.35f + transform.right * 1.6f, Quaternion.identity) as Transform;
+                if(bullet)
+                {
+                    bullet.GetComponent<Rigidbody>().velocity = Camera.main.transform.forward * bulletSpeed + this.GetComponent<Rigidbody>().velocity;
+                }
+                shootCooldown = shootInterval;
+            }
+        }
     }
 }

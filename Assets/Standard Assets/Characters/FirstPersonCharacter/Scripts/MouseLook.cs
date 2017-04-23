@@ -19,9 +19,12 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private Quaternion m_CameraTargetRot;
         private bool m_cursorIsLocked = true;
 
+        float cameraAngleX = 0.0f;
+
         public void Init(Transform character, Transform camera)
         {
             m_CameraTargetRot = camera.localRotation;
+            cameraAngleX = 0;
         }
 
 
@@ -30,13 +33,18 @@ namespace UnityStandardAssets.Characters.FirstPerson
             float yRot = CrossPlatformInputManager.GetAxis("Mouse X") * XSensitivity;
             float xRot = CrossPlatformInputManager.GetAxis("Mouse Y") * YSensitivity;
 
-            m_CameraTargetRot *= Quaternion.Euler (-xRot, 0f, 0f);
+            //m_CameraTargetRot *= Quaternion.Euler (-xRot, 0f, 0f);
 
-            if(clampVerticalRotation)
-                m_CameraTargetRot = ClampRotationAroundXAxis (m_CameraTargetRot);
+            cameraAngleX -= xRot;
+
+            if (clampVerticalRotation)
+            {
+                m_CameraTargetRot = ClampRotationAroundXAxis(m_CameraTargetRot);
+                cameraAngleX = Mathf.Clamp(cameraAngleX, MinimumX, MaximumX);
+            }
             
             character.localRotation *= Quaternion.Euler(0f, yRot, 0f);
-            camera.localRotation = m_CameraTargetRot;
+            camera.localRotation = Quaternion.Euler(cameraAngleX, 0, 0);//m_CameraTargetRot;
             
             UpdateCursorLock();
         }

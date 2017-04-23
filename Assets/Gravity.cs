@@ -15,8 +15,12 @@ public class Gravity : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-		foreach(Rigidbody body in FindObjectsOfType<Rigidbody>())
+		foreach(Player player in FindObjectsOfType<Player>())
         {
+            if (!player.isLocalPlayer)
+                continue;
+
+            Rigidbody body = player.GetComponent<Rigidbody>();
             if (body.isKinematic)
                 continue;
 
