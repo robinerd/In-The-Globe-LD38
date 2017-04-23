@@ -12,7 +12,7 @@ public class CamFollow : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (localPlayer != null) {
+        if (localPlayer != null && !localPlayer.GetComponent<Player>().dead) {
             transform.parent = localPlayer;
             transform.localPosition = new Vector3(0, 0.6f, 0.4f);
         }

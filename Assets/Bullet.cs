@@ -1,17 +1,22 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
-public class Bullet : MonoBehaviour
+public class Bullet : NetworkBehaviour
 {
-    //public Player owner;
+    public uint ownerPlayerID; //ONLY USED ON SERVER! will be 0 on client
 
     void OnCollisionEnter(Collision col)
     {
-        Player playerHit = col.collider.GetComponent<Player>();
-        if (playerHit != null)
+        if (isServer)
         {
-            playerHit.Hurt();
+            Player playerHit = col.collider.GetComponent<Player>();
+            if (playerHit != null && playerHit.netId.Value != ownerPlayerID)
+            {
+                playerHit.GetHurt();
+            }
         }
+
         Destroy(gameObject, 1.6f);
     }
 
