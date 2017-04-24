@@ -22,7 +22,7 @@ public class HpBillboard : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        if (parentPlayer.isLocalPlayer)
+        if (!parentPlayer.isLocalPlayer)
         {
             transform.LookAt(Camera.main.transform, parentPlayer.transform.up);
         }

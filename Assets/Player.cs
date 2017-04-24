@@ -30,7 +30,7 @@ public class Player : NetworkBehaviour {
             if (hp <= 0)
             {
                 RpcRespawn();
-                hp = 0;
+                hp = maxHp;
             }
         }
     }
@@ -103,7 +103,6 @@ public class Player : NetworkBehaviour {
 
         if (isLocalPlayer)
         {
-            hp = maxHp;
             transform.position = Random.insideUnitSphere.normalized * 20;
         }
     }

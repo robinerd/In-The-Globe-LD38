@@ -604,7 +604,6 @@ GameObject:
   - component: {fileID: 11466428}
   - component: {fileID: 11475086}
   - component: {fileID: 11415508}
-  - component: {fileID: 114416445782753034}
   m_Layer: 5
   m_Name: LobbyManager
   m_TagString: Untagged
@@ -3201,7 +3200,8 @@ MonoBehaviour:
   m_PlayerSpawnMethod: 0
   m_OfflineScene: NetworkLobby
   m_OnlineScene: 
-  m_SpawnPrefabs: []
+  m_SpawnPrefabs:
+  - {fileID: 1899407757625854, guid: 30ab74b76b8bbfd4fa2eab0aa933edfa, type: 2}
   m_CustomConfig: 0
   m_MaxConnections: 4
   m_ConnectionConfig:
@@ -3240,7 +3240,7 @@ MonoBehaviour:
   m_AllowFragmentation: 1
   m_MatchHost: mm.unet.unity3d.com
   m_MatchPort: 443
-  matchName: Fighting
+  matchName: InTheGlobe
   matchSize: 4
   isNetworkActive: 0
   matchMaker: {fileID: 0}
@@ -5680,14 +5680,3 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 155310}
   m_IsPrefabParent: 1
---- !u!114 &114416445782753034
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 155310}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5d15f2051d09644ebccdef0f54b7bbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
